@@ -29,6 +29,7 @@ class URLResponse(BaseModel):
     """Response shape for a single shortened URL."""
     # from_attributes usgae and helpfulness: when your data comes from Python objects 
     # (especially database/ORM objects) rather than dictionaries.
+    model_config = ConfigDict(from_attributes= True)
     id : int
     short_code : str
     short_url : str
