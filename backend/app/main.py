@@ -7,7 +7,7 @@ from starlette.responses import JSONResponse
 
 from app.config import settings
 from app.database import init_db
-from app.routers import redirect, urls
+from app.routers import redirect, url
 
 
 @asynccontextmanager
@@ -36,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(urls.router)
+app.include_router(url.router)
 
 
 @app.get("/health", tags=["health"])

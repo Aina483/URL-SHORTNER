@@ -15,7 +15,7 @@ class URLCreateRequest(BaseModel):
             description="Optional caller-chosen alias for the short code.",
         )
 
-    @field_validator('orignal_url')
+    @field_validator('original_url')
     @classmethod
     def validate_url(cls, value :str) -> str:
         try:

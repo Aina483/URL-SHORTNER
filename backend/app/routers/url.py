@@ -6,7 +6,7 @@ from app import crud
 from app.config import settings
 from app.database import get_db
 from app.models import URL
-from app.schemas import URLCreateRequest, URLListResponse, URLResponse, URLStatsResponse
+from app.schemas import URLCreateRequest, URLListReponse, URLResponse
 
 router = APIRouter(prefix="/api/urls", tags=["urls"])
 
@@ -37,14 +37,14 @@ async def create_short_url(
     return _to_response(url)
 
 
-@router.get("", response_model=URLListResponse)
+@router.get("", response_model=URLListReponse)
 async def list_short_urls(
     limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db),
-) -> URLListResponse:
+) -> URLListReponse:
     items, total = await crud.list_urls(db, limit=limit, offset=offset)
-    return URLListResponse(
+    return URLListReponse(
         items=[_to_response(u) for u in items],
         total=total,
         limit=limit,
@@ -52,12 +52,7 @@ async def list_short_urls(
     )
 
 
-@router.get("/{short_code}/stats", response_model=URLStatsResponse)
-async def get_url_stats(short_code: str, db: AsyncSession = Depends(get_db)) -> URLStatsResponse:
-    url = await crud.get_by_code(db, short_code)
-    if url is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Short URL not found")
-    return URLStatsResponse(**_to_response(url).model_dump())
+
 
 
 @router.delete("/{short_code}", status_code=status.HTTP_204_NO_CONTENT)

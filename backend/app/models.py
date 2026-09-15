@@ -14,7 +14,7 @@ class URL(Base):
 
     id : Mapped[Integer] = mapped_column(Integer, primary_key = True, autoincrement = True)
     short_code : Mapped[str] = mapped_column(String(16), index = True, nullable = False, unique = True )
-    orignal_url : Mapped[str] = mapped_column(String(2048), nullable = False)
+    original_url : Mapped[str] = mapped_column(String(2048), nullable = False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow, nullable=False)
     click_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     __table_args__ = (
